@@ -2,7 +2,7 @@
 description: 开启你的源码阅读之旅！
 ---
 
-# Minecraft Source Code Wiki
+# 写在开头的话
 
 您好，欢迎阅读Minecraft 1.12源码阅读笔记，在这个Wiki中，我将从阅读Minecraft源码的准备讲起，然后阐述我是如何学习阅读Minecraft源码的，以这个为出发点，我归纳了八个源码阅读原则，最后，我将解析Minecraft 1.12中的每一个类。
 

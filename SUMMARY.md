@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Minecraft Source Code Wiki](README.md)
+* [写在开头的话](README.md)
 
 ## 👩‍💻课前预习
 
