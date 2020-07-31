@@ -44,7 +44,7 @@ description: 获得你自己的Minecraft源代码
 
 把解压缩后的内容加入到`src/minecraft`文件夹下，加入好后应该是这样的：
 
-![&#x5B8C;&#x6574;&#x7684;minecratf&#x6587;&#x4EF6;&#x5939;](.gitbook/assets/minecraft-folder.png)
+![&#x5B8C;&#x6574;&#x7684;minecraft&#x6587;&#x4EF6;&#x5939;](.gitbook/assets/minecraft-folder.png)
 
 ## 加入vecmath依赖
 
