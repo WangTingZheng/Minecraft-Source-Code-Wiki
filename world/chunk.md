@@ -180,7 +180,7 @@ public int getBlockLightOpacity(BlockPos pos)
 private int getBlockLightOpacity(int x, int y, int z)
 ```
 
-### **getBiome**
+#### **getBiome**
 
 ```java
 /**
@@ -221,7 +221,7 @@ public Biome getBiome(BlockPos pos, BiomeProvider provider)
 
 更新完准确的生物群系id后，就可以正常获取了，首先通过id得到生物群系对象，再返回，当对象是空的时候，返回默认的生物群系：平原。
 
-### **getBiomeArray**
+#### **getBiomeArray**
 
 ```java
 /**
@@ -237,7 +237,7 @@ public byte[] getBiomeArray()
 
 其实就是一个普通的get函数，没什么好讲的。
 
-### **getBlockLightOpacity**
+#### **getBlockLightOpacity**
 
 ```java
 /**
@@ -253,7 +253,7 @@ public int getBlockLightOpacity(BlockPos pos)
 
 方块光线不透明度封装在方块状态类里，而方块状态对象通过本类中`getBlockState`函数来获取。
 
-### **getBlockLightOpacity**
+#### **getBlockLightOpacity**
 
 ```java
 /**
@@ -271,7 +271,7 @@ private int getBlockLightOpacity(int x, int y, int z)
 
 与上面的函数类似，只不过传入方块的位置参数不同，上一个是传入封装好的位置对象，这一个是直接传入方块的三维坐标。
 
-### **getBlockState**
+#### **getBlockState**
 
 ```java
 /**
@@ -387,7 +387,7 @@ catch (Throwable throwable)
 
 首先来个判断，如果方块的y轴坐标大于等于0且y轴坐标所在Section的id在范围之内，也就是方块的位置不高也不低，处于正常的位置时，先从`storageArrays`获得方块所在的Section，如果Section对象不为空的话，通过`ExtendedBlockStorage`类中的get方法获取方块状态对象，如果不满足条件，就返回空气。
 
-### **getBlockState**
+#### **getBlockState**
 
 ```java
 /**
@@ -403,7 +403,7 @@ public IBlockState getBlockState(BlockPos pos)
 
 再次封装函数`public IBlockState getBlockState(final int x, final int y, final int z)`，只传入封装方块位置的BlockPso对象。
 
-### **getBlockStorageArray**
+#### **getBlockStorageArray**
 
 ```java
 /**
@@ -418,7 +418,7 @@ public ExtendedBlockStorage[] getBlockStorageArray()
 
 返回本Chunk保存的Section数组。没什么好讲的。
 
-### **getEntitiesOfTypeWithinAABB**
+#### **getEntitiesOfTypeWithinAABB**
 
 ```java
 /**
@@ -451,7 +451,7 @@ public <T extends Entity> void getEntitiesOfTypeWithinAABB(Class <? extends T > 
 
 还未知。
 
-### **getEntitiesWithinAABBForEntity**
+#### **getEntitiesWithinAABBForEntity**
 
 ```java
 /**
@@ -503,7 +503,7 @@ public void getEntitiesWithinAABBForEntity(@Nullable Entity entityIn, AxisAligne
 
 未知。
 
-### **getEntityLists**
+#### **getEntityLists**
 
 ```java
 /**
@@ -518,7 +518,7 @@ public ClassInheritanceMultiMap<Entity>[] getEntityLists()
 
 返回本Chunk中的实体列表map，没什么好讲的
 
-### **getHeightValue**
+#### **getHeightValue**
 
 ```java
 /**
@@ -533,7 +533,7 @@ public int getHeightValue(int x, int z)
 
 从heightMap中获取某一个列的高度，传入x轴和z轴的坐标，把x和z轴坐标通过`z << 4 | x`转化为序号，在从heightMap检索列高度。
 
-### **getHeight**
+#### **getHeight**
 
 ```java
 /**
@@ -549,7 +549,7 @@ public int getHeight(BlockPos pos)
 
 封装上面的函数，传入封装好的方块的位置对象，返回方块所在列的高度。
 
-### **getHeightMap**
+#### **getHeightMap**
 
 ```java
 /**
@@ -564,7 +564,7 @@ public int[] getHeightMap()
 
 返回本Chunk中16\*16方块的列的高度数组heightMap，没啥可说的。
 
-### **getInhabitedTime**
+#### **getInhabitedTime**
 
 ```java
 /**
@@ -579,7 +579,7 @@ public long getInhabitedTime()
 
 返回玩家在本Chunk中呆的时间，没什么好讲的。
 
-### **getLastExtendedBlockStorage**
+#### **getLastExtendedBlockStorage**
 
 ```java
 /**
@@ -603,7 +603,7 @@ private ExtendedBlockStorage getLastExtendedBlockStorage()
 
 要获得最上面的非空section，肯定得从上面开始检查，所以有一个从上往下的遍历的for循环，从`storageArrays`中遍历`ExtendedBlockStorage`对象，如果section对象不是空的，就返回该section对象，那就是最上面的非空section。
 
-### **getLightFor**
+#### **getLightFor**
 
 ```java
 /**
