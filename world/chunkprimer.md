@@ -4,8 +4,6 @@ description: 我是Chunk.java的好帮手！
 
 # ChunkPrimer
 
-
-
 * 时间：2020-7-16
 * 类别：地形生成
 * 类：net.minecraft.world.chunk.ChunkPrimer
