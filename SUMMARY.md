@@ -9,13 +9,13 @@
 * [学习如何学习](ke-qian-yu-xi/xue-xi-ru-he-xue-xi.md)
 * [阅读源码八原则](ke-qian-yu-xi/yue-du-yuan-ma-ba-yuan-ze.md)
 
-## world
+## 🎴world
 
 * [Chunk](world/chunk-package/README.md)
   * [Chunk](world/chunk-package/chunk.md)
   * [ChunkPrimer](world/chunk-package/chunkprimer.md)
 
-## util
+## 🔨util
 
 * [MathHelper](util/mathhelper.md)
 
