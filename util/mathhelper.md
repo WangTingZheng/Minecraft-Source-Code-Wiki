@@ -1,3 +1,7 @@
+---
+description: 让数学帮助你！
+---
+
 # MathHelper
 
 * 时间：2020-7-21
