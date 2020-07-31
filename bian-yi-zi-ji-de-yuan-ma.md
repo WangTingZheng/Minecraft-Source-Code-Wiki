@@ -4,9 +4,9 @@
 
 {% file src=".gitbook/assets/mcp940.zip" %}
 
-{% file src=".gitbook/assets/darkmagician6-eventapi.zip" %}
-
 {% file src=".gitbook/assets/optifine-src-version-1.12-hd-u-a4-.rar" %}
+
+{% file src=".gitbook/assets/darkmagician6-eventapi.zip" %}
 
 {% file src=".gitbook/assets/vecmath.zip" %}
 
@@ -22,96 +22,98 @@
 
 文件夹下有1.12.jar文件
 
-## mcp940
+## 反编译Minecraft
 
-Source code of minecraft 1.12
+解压缩mcp940.zip到你的工作区：
 
-### How to run
+* MacOS/Linux：运行 [decompile.sh](https://github.com/WangTingZheng/mcp940/blob/master/decompile.sh)
+* Windows：运行 [decompile.](https://github.com/WangTingZheng/mcp940/blob/master/decompile.sh)
 
-**Note: Please prepare proxy tools such as SSR because of large project file size.**
+运行成功后，会在`src/minecraft`文件夹下产生net包和一个`Start.java`
 
-Clone this project from github to your workspace:
+## 加入其它工具包
 
-\`\`\`shell script git clone [https://github.com/WangTingZheng/mcp940](https://github.com/WangTingZheng/mcp940) cd mcp940
+解压缩：
 
-```text
-Open IDEA, open another project and select:
+* DarkMagician6-eventapi.zip
+* Optifine SRC Version \[1.12 HD U A4\].rar
+
+把解压缩后的内容加入到`src/minecraft`文件夹下，加入好后应该是这样的：
+
+![&#x5B8C;&#x6574;&#x7684;minecratf&#x6587;&#x4EF6;&#x5939;](.gitbook/assets/minecraft-folder.png)
+
+## 加入vecmath依赖
+
+解压缩`vecmath.zip`获得`vecmath.jar`，将它放入`lib`文件夹下
+
+## 在IDEA上配置
+
+在IDEA中，点击：
+
+```c
+File-> New-> Project from Existing Sources...
 ```
 
-File-&gt; New-&gt; Project from Existing Sources...
+![open project](.gitbook/assets/open.png)
 
-```text
-![open](./image/open.png)
+选择`Import project from external model`再选择`Eclipse`
 
-Open /eclipse, chose `Import project from external model` and select Eclipse
+![import Eclipse](.gitbook/assets/import-eclipse.png)
 
-![eclipse](./image/import-eclipse.png)
+接下来一页什么都不干
 
-And click `next`, do not change anything
+![&#x76F4;&#x63A5;&#x70B9;next](.gitbook/assets/import-path.png)
 
-![path](./image/import-path.png)
+接下来取消选择Server
 
-Deselect `Server` and next:
+![&#x4E0D;&#x7528;&#x9009;&#x62E9;Server](.gitbook/assets/import-client.png)
 
-![client](./image/import-client.png)
+一直点击next直到IDEA打开本项目，如果有报错，忽略就好，打开后请配置JDK为1.8
 
-And next, next until  IDEA open this project, select jdk1.8 and dismiss the error about `Imported project refers to unknown jdks JavaSE-1.6` .
+打开`Project Structure`，点击`Modules`，从`lib`加入`vecmath.jar`
 
-![idea](./image/project.png)
+![&#x52A0;&#x5165;&#x5E93;](.gitbook/assets/mod.png)
 
-Open Modules facets and add `vecmath-1.5.2.jar` in `/lib` jars to modules Client:
-
-![jar](./image/mod.png)
-
-Run main method in  `/minecraft/Start.java`, you will get a exception:
-
+运行Start.java内的主函数，你会得到一个报错：
 
 ```java
 Exception in thread "main" java.lang.UnsatisfiedLinkError: no lwjgl64 in java.library.path
-    at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1860)
-    at java.lang.Runtime.loadLibrary0(Runtime.java:870)
-    at java.lang.System.loadLibrary(System.java:1122)
-    at org.lwjgl.Sys$1.run(Sys.java:72)
-    at java.security.AccessController.doPrivileged(Native Method)
-    at org.lwjgl.Sys.doLoadLibrary(Sys.java:66)
-    at org.lwjgl.Sys.loadLibrary(Sys.java:87)
-    at org.lwjgl.Sys.<clinit>(Sys.java:117)
-    at net.minecraft.client.Minecraft.getSystemTime(Minecraft.java:3282)
-    at net.minecraft.client.main.Main.main(Main.java:39)
-    at Start.main(Start.java:11)
+	at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1860)
+	at java.lang.Runtime.loadLibrary0(Runtime.java:870)
+	at java.lang.System.loadLibrary(System.java:1122)
+	at org.lwjgl.Sys$1.run(Sys.java:72)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.lwjgl.Sys.doLoadLibrary(Sys.java:66)
+	at org.lwjgl.Sys.loadLibrary(Sys.java:87)
+	at org.lwjgl.Sys.<clinit>(Sys.java:117)
+	at net.minecraft.client.Minecraft.getSystemTime(Minecraft.java:3282)
+	at net.minecraft.client.main.Main.main(Main.java:39)
+	at Start.main(Start.java:11)
 ```
 
-Open `Edit Configurations` :
+打开Edit Configurations：
 
-![conf](./image/conf.png)
+![&#x6253;&#x5F00;&#x914D;&#x7F6E;&#x7A97;&#x53E3;](.gitbook/assets/conf.png)
 
-Fill `Fill in this input box` in `VM options` input box and change `your project folder\ecilpse` to `your project folder\jars` and click ok.
+配置Start.java的启动参数，在`VM options`中填入`-Djava.library.path=versions\1.12\1.12-natives`，并修改`Working directory`下的最后一个文本为`jars`：
 
-![start](./image/start.png)
+![&#x914D;&#x7F6E;&#x7A97;&#x53E3;](.gitbook/assets/start.png)
 
-Rerun main method in Start .java
+重新执行Start.java下的主函数就可以运行游戏
 
-![mc](./image/minecraft.png)
+![IDEA&#x5185;&#x8FD0;&#x884C;Minecraft&#x7684;&#x6548;&#x679C;](.gitbook/assets/minecraft.png)
 
-### How to develop
+## 存在的问题
 
-* fork this project to your account
-* do [How to run](https://github.com/WangTingZheng/mcp940/#How-to-run) to setup project
-* to new a branch and add feature or fix a bug in this new branch
-* commit you code and merge new branch to master when feature done or bug fixed
-* to my [project](https://github.com/WangTingZheng/mcp940) to new a [pull request](https://github.com/WangTingZheng/mcp940/pulls), I will check your commit and merge into my project
-* more detail about how to develop a project in Github please view this [video](https://www.bilibili.com/video/BV1Ff4y1R7cN?p=2)
+* 缺少国际化，目前只支持英文，无法选择中文
+* 整个游戏没有声音、音乐和音效
+* 点击资源包，整个游戏就会奔溃
 
-### Waiting for fixing
+## 参考
 
-* Only support English, No Chinese.
-* No any music and sound effects.
-
-### Ref
-
-* [\[教程\]全民写端-MCP918配置&Optifine装载&EventAPI](https://www.bilibili.com/video/BV1W741127EZ): builds mcp918 bases on minecraft 1.8
-* [mcp940.zip](http://www.modcoderpack.com/): The origin source code of Minecraft client 1.12 & server 1.12
-* [Optifine SRC Version \[1.12 HD U A4\]](https://optifinesource.co.uk/downloads/1-12.html): Optifine package
-* [DarkMagician6-eventapi.zip](https://bitbucket.org/DarkMagician6/eventapi/downloads/): A event api to listen event in minecraft
-* [vecmath-1.5.2.jar](https://mvnrepository.com/artifact/javax.vecmath/vecmath/1.5.2): 3D Vector Math Package
+* [\[教程\]全民写端-MCP918配置&Optifine装载&EventAPI](https://www.bilibili.com/video/BV1W741127EZ): 使用mcp编译1.8的视频教程
+* [mcp940.zip](http://www.modcoderpack.com/): Minecraft 1.12 原版反编译程序，能反编译服务端和客户端
+* [Optifine SRC Version \[1.12 HD U A4\]](https://optifinesource.co.uk/downloads/1-12.html): Optifine 包，用来提升游戏帧数
+* [DarkMagician6-eventapi.zip](https://bitbucket.org/DarkMagician6/eventapi/downloads/): 一个Minecraft的事件监听api
+* [vecmath-1.5.2.jar](https://mvnrepository.com/artifact/javax.vecmath/vecmath/1.5.2): Minecraft中用到的3D向量数学包
 
