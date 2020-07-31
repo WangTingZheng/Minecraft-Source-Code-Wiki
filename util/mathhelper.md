@@ -8,6 +8,8 @@ description: 让数学帮助你！
 * 类别：算法
 * 类：net.minecraft.util.math.MathHelper
 
+## log2DeBruijn
+
 在类`net.minecraft.world.chunk.BlockStateContainer`中，有一个`setBit`方法，里面有一个给`bits`赋值的过程，这里用到了一个求`log2`的算法：
 
 ```java
