@@ -182,6 +182,18 @@ public Biome getBiome(BlockPos pos, BiomeProvider provider)
 public byte[] getBiomeArray()
 public int getBlockLightOpacity(BlockPos pos)
 private int getBlockLightOpacity(int x, int y, int z)
+public IBlockState getBlockState(final int x, final int y, final int z)
+public IBlockState getBlockState(BlockPos pos)
+public ExtendedBlockStorage[] getBlockStorageArray()
+public <T extends Entity> void getEntitiesOfTypeWithinAABB(Class <? extends T > entityClass, AxisAlignedBB aabb, List<T> listToFill, Predicate <? super T > filter)
+public void getEntitiesWithinAABBForEntity(@Nullable Entity entityIn, AxisAlignedBB aabb, List<Entity> listToFill, Predicate <? super Entity > filter)
+public ClassInheritanceMultiMap<Entity>[] getEntityLists()
+public int getHeightValue(int x, int z)
+public int getHeight(BlockPos pos)
+public int[] getHeightMap()
+public long getInhabitedTime()
+private ExtendedBlockStorage getLastExtendedBlockStorage()
+public int getLightFor(EnumSkyBlock type, BlockPos pos)
 ```
 
 #### **getBiome**
