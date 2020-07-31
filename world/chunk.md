@@ -175,7 +175,7 @@ public boolean unloadQueued;
 
 ## 方法
 
-### get
+### get方法
 
 ```java
 public Biome getBiome(BlockPos pos, BiomeProvider provider)
@@ -194,6 +194,7 @@ public int[] getHeightMap()
 public long getInhabitedTime()
 private ExtendedBlockStorage getLastExtendedBlockStorage()
 public int getLightFor(EnumSkyBlock type, BlockPos pos)
+public int getLightSubtracted(BlockPos pos, int amount)
 ```
 
 #### **getBiome**
