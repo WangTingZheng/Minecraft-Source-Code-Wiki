@@ -716,6 +716,109 @@ public int getLightSubtracted(BlockPos pos, int amount)
 
 如果不是空，说明方块处于类似于上图所示的环境中，既有全局光照又有局部光照，那我们获取全局光照后减去衰减值，这是全局光照在方块上的情况，把它与局部光照对比，取其最大值，然后返回，这就是这个函数的作用，算出一个综合的光线强度。
 
+#### getLowestHeight
+
+```java
+/**
+ * 返回heightMap中最小的值
+ * @return heightMap中最小的值 
+ */
+public int getLowestHeight()
+{
+    return this.heightMapMinimum;
+}
+```
+
+没啥好讲的，返回`heightMap`数组中最小的值
+
+#### getPos
+
+```java
+/**
+ * Gets a {@link ChunkPos} representing the x and z coordinates of this chunk.
+ * 返回一个封装好本Chunk的x轴和z轴坐标的ChunkPos对象
+ */
+public ChunkPos getPos()
+{
+    return new ChunkPos(this.x, this.z);
+}
+```
+
+返回一个封装好本Chunk的x轴和z轴坐标的ChunkPos对象
+
+#### getPrecipitationHeight
+
+```java
+/**
+ * 重新计算某个方块所在列的降水高度，方便给水滴动作一点的指示
+ * @param pos 封装好方块坐标的对象
+ * @return 这个方块所在列的降水应该停留的方块位置
+ */
+public BlockPos getPrecipitationHeight(BlockPos pos)
+{
+    int i = pos.getX() & 15;
+    int j = pos.getZ() & 15;
+    int k = i | j << 4; //根据x，z轴获得在一个chunk平面的序号
+    BlockPos blockpos = new BlockPos(pos.getX(), this.precipitationHeightMap[k], pos.getZ()); //根据方块的x，z和降水高度获得接收到降水的区块的位置
+
+    if (blockpos.getY() == -999) //降水高度只被初始化了，没有被计算过，降水高度是无效的
+    {
+        int l = this.getTopFilledSegment() + 15; //取最上面非空section的最上面一层方块
+        blockpos = new BlockPos(pos.getX(), l, pos.getZ()); //获取该方块的位置对象
+        int i1 = -1; //定义初始降水高度
+
+        while (blockpos.getY() > 0 && i1 == -1) //如果方块存在且刚刚开始
+        {
+            IBlockState iblockstate = this.getBlockState(blockpos); //获得方块
+            Material material = iblockstate.getMaterial(); //获得材质
+
+            if (!material.blocksMovement() && !material.isLiquid()) //如果方块不是固体且方块不是液体
+            {
+                blockpos = blockpos.down(); //那就是空的呗，位置下降一格，大概是模拟雨滴下降的动作吧
+            }
+            else //如果是固体或者是液体，雨滴收到了遮挡
+            {
+                i1 = blockpos.getY() + 1; //降水高度应该是接触方块的上面一格
+            }
+        }
+        //如果你想获得0层以及0层以下的降水高度，那么降水高度是-1
+        this.precipitationHeightMap[k] = i1; //把降水高度赋值给列表
+    }
+
+    return new BlockPos(pos.getX(), this.precipitationHeightMap[k], pos.getZ()); //返回封装好的位置对象
+}
+```
+
+我们看这个函数，从它的名字来看，这个函数的功能是获得降水高度，从返回值的类型来看，它需要得到的是一个封装了方块位置的BlockPos类的对象。
+
+前面我们大概能理解它的思路，先是从输入的BlockPos对象里获得所要求降水高度的方块的x轴和z轴，`&`上15的目的主要是让坐标值处于0-15之间，毕竟我们是在一个chunk里进行操作的，得到x轴和z轴的坐标后，使用`i | j << 4`获得该方块在它所在平面的序号，这个序号从0-255，然后根据这个序号获得方块所在列（垂直的一列）的降水高度，这个是一个y坐标值，其含义是该列接到的降水的方块的y坐标值，有了它后加上x轴和z轴坐标，新建一个BlockPos对象来代表这个列的降水所在方块的位置。
+
+然后判断，如果这个降水位置的y坐标是-999的时候，说明从数组`precipitationHeightMap`获得的降水处于初始化状态，-999是一个无意义的初始化值，只作判定用，我们可以使用IDEA的`Find Usage`来查看这个变量的使用的地方：
+
+![&#x964D;&#x6C34;&#x6570;&#x7EC4;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x51B5;](../.gitbook/assets/howto-prewrite.png)
+
+我们发现，只有上面这个函数的第1262行有一个给`precipitationHeightMap`赋非-999值的地方，也就是说如果碰到有降水高度是-999的情况，就说明还没有执行这个函数。
+
+我们需要更新它的值，我们先获得此方块所在section的最上面一层方块的y坐标值，再用这个y坐标值替换原来无意义的y坐标值-999，给blockpos赋一个新的值，接下来，我们定义一个虚空世界的降水高度值，这个值为-1，所有处于虚空的方块的降水高度都是这个值，也就是说，虚空的降水最多只能下到-1层。什么，你不相信？？我们来分析分析。
+
+我们假设我们现在要利用这个函数获取一个处在虚空的方块的降水高度，以此为依据，控制降水到什么地方停下，虚空方块的坐标的特点是，其y坐标为负数，那我们就可以随便找一个虚空世界的方块坐标，比如说是`(131,-22,12)`，把它封装成一个BlockPos对象后传入中国函数，并获取返回值，我们看看会发生什么。
+
+前面的几行没有什么疑问，获取坐标值，获得本列降水下一个方块的位置对象，由于我们没有执行过这个函数，所以下面的`if (blockpos.getY() == -999)`这个判断我们是符合的。
+
+首先我们获得最上面的非空section的最顶层y坐标，在生成对应的方块位置对象，然后我们定义了一个虚空降水高度-1，然后我们进入了一个while循环，这个while循环的进入条件是`blockpos.getY() > 0 && i1 == -1`我们显然不符合第一条，所以我们不进入这个while循环，然后我们就直接就把`i1`也就是-1的值赋值给`precipitationHeightMap`数组，当成是这个列的降水高度，最后封装成BlockPos对象返回出来，所以虚空（包括基岩）的降水高度都是-1格，也就是基岩下面的一格。
+
+那不是虚空也不是基岩的方块的降水高度是然后计算的呢？我们就得看while循环内部的东西了，我们知道，非虚空和基岩的y坐标值肯定是大于0的，同时如果在第一次while循环中，i1的值还是-1没有变，所以while循环的进入条件是符合的，我们进入了while循环。
+
+首先我们根据方块的坐标对象，获得了方块的状态对象，然后我们使用方块状态获得了方块的材质，然后我们判断了，如果方块的材质不能让人移动且不是液体的话，就执行`blockpos = blockpos.down();`就是把blockpos的y坐标值减1，把`指针`指向下一格方块，它的意思是，这个方块可以使雨滴透过，所以不可能是降水高度所在点，所以我们得往下找，等进入下一个循环，我们依旧这么判断，如果还是能使雨滴透过的方块，我们就继续找，知道我们遇到一个雨滴透不过的方块，我们就把这个方块的上一格的y轴坐标加1，赋值给i1，此时i1就是我们要找的降水高度，因为雨水在这个方块上面停住了。下面就是虚空下的降水的实物图，我们可以看到，虚空的降水停在了-1层。
+
+![&#x5206;&#x522B;&#x662F;&#x4E0D;&#x52A0;1&#x3001;&#x52A0;1&#x3001;&#x51CF;1](../.gitbook/assets/howto-per.gif)
+
+i1被赋了非-1值，也就不满足while循环的条件，自然就退出了循环，退出循环后，就说明我们找到了真实的降水高度，也就是雨滴应该停止的地方，我们再把i1赋值给`precipitationHeightMap`,然后把这个雨滴停留的方块的位置封装成BlockPos对象返回就可以了。
+
+那如何验证我们这套理论呢？Minecraft真的就这么运行的吗？我们可以把`i1 = blockpos.getY() + 1;`的+1去掉或者减去1，看看会发生什么，我们应当在一个蜘蛛网下方放一个玻璃方块，当我们保留+1的时候，当while循环从蜘蛛网遍历到玻璃方块时候，会运行这条语句，此时记录的雨滴停留方块应当在蜘蛛网的这一格上，也就是在玻璃方块和蜘蛛网交界的平面，会出现雨滴撞击的深蓝色粒子特效，如果我们去掉+1，那么雨滴的降水高度将会判定在玻璃方块的位置上，雨滴的碰撞效果也会在玻璃方块的底部产生，但是由于玻璃方块是透明的，我们依然可以看到这个粒子效果。减一同理，但是粒子效果会在最底层的玻璃方块的下表面产生，下图就是不加一和加一和减一的实际效果图。​![](B:\Project\doc\mcp940.wiki\image\HowTo\noplus.gif) ![](B:\Project\doc\mcp940.wiki\image\HowTo\plus.gif) ![](B:\Project\doc\mcp940.wiki\image\HowTo\dec.gif)​
+
+我们可以看到，现实情况和我们预想的一样，当不加1的时候，游戏判定的降水高度是玻璃方块这一层，粒子特效也产生于第一个玻璃方块和第二个玻璃方块之间，也就是最左边这幅图所展示的情况，这种情况是不正常的，因为玻璃方块不透雨，雨滴不应该落在两个玻璃方块之间，如果加1，也就是正常情况，也就是中间这幅图的情况，降水判定在蜘蛛网和玻璃方块之间，碰撞产生的粒子效果也产生在玻璃方块和蜘蛛网之间。如果减1，那就是右边这幅图的情况，此时，降水判定在正常位置的下面两格，也就是最底层玻璃方块的下面表面。
+
 
 
 
