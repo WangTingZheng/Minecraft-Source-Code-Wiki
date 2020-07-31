@@ -52,6 +52,8 @@ public boolean unloadQueued;
 
 具体的细节请看[阅读源码八原则](./%E9%98%85%E8%AF%BB%E6%BA%90%E7%A0%81%E5%85%AB%E5%8E%9F%E5%88%99#%E5%85%88%E7%9C%8B%E5%B1%9E%E6%80%A7%E5%90%8E%E7%9C%8B%E6%96%B9%E6%B3%95)。
 
+{% tabs %}
+{% tab title="数据存储" %}
 * NULL\_BLOCK\_STORAGE
   * 父类：ExtendedBlockStorage，这个父类是描述一个Section的类
   * 数据结构：普通变量
@@ -77,11 +79,18 @@ public boolean unloadQueued;
   * 数据结构：256长度的一维数组
   * 含义：本Chunk中保存的256（16×16）列是否要更新天光（全局光照）的标志位
   * 用途：指导OpenGL更新Chunk列的天光渲染
-* loaded
-  * 父类：Boolean
-  * 数据结构：普通变量
-  * 含义：标识本Chunk是否被加载的标志位，为了运行效率，Minecraft并不会同时加载地图中所有的Chunk
-  * 用途：指导OpenGL在适当的时候加载Chunk
+* tileEntities
+  * 父类：&lt;BlockPos, TileEntity&gt;
+  * 数据结构：Map&lt;BlockPos, TileEntity&gt;
+  * 含义：平铺实体，比如说宝箱
+  * 用途：储存Chunk中的平铺实体
+* entityLists
+
+  * 父类：Entity
+  * 数据结构：16长度的ClassInheritanceMultiMap数组
+  * 含义：实体列表，比如说一些mob（怪物）
+  * 用途：储存Chunk中的实体
+
 * world
   * 父类：World
   * 数据结构：普通变量
@@ -92,31 +101,14 @@ public boolean unloadQueued;
   * 数据结构：256长度的一维数组
   * 含义：本Chunk中保存的256（16×16）列的高度，也就是最高的非空气方块的y坐标
   * 用途：涉及一些光线的计算、降水高度的判定
-* x
-  * 父类：Integer
-  * 数据结构：普通变量
-  * 含义：本Chunk在所处世界的x坐标
-  * 用途：用于定位一个Chunk
-* y
-  * 父类：Integer
-  * 数据结构：普通变量
-  * 含义：本Chunk在所处世界的y坐标
-  * 用途：用于定位一个Chunk
+{% endtab %}
+
+{% tab title="标志" %}
 * isGapLightingUpdated
   * 父类：Boolean
   * 数据结构：普通变量
   * 含义：暂时不清楚
   * 用途：暂时不清楚
-* tileEntities
-  * 父类：&lt;BlockPos, TileEntity&gt;
-  * 数据结构：Map&lt;BlockPos, TileEntity&gt;
-  * 含义：平铺实体，比如说宝箱
-  * 用途：储存Chunk中的平铺实体
-* entityLists
-  * 父类：Entity
-  * 数据结构：16长度的ClassInheritanceMultiMap数组
-  * 含义：实体列表，比如说一些mob（怪物）
-  * 用途：储存Chunk中的实体
 * isTerrainPopulated
   * 父类：Boolean
   * 数据结构：普通变量
@@ -142,6 +134,32 @@ public boolean unloadQueued;
   * 数据结构：普通变量
   * 含义：标识本Chunk中是否有实体
   * 用途：决定是否要在每一个ticked中保存
+* loaded
+  * 父类：Boolean
+  * 数据结构：普通变量
+  * 含义：标识本Chunk是否被加载的标志位，为了运行效率，Minecraft并不会同时加载地图中所有的Chunk
+  * 用途：指导OpenGL在适当的时候加载Chunk
+* unloadQueued
+  * 父类：Boolean
+  * 数据结构：普通变量
+  * 含义：标识本Chunk是否在卸载队列中
+  * 用途：卸载Chunk时作为判断依据
+{% endtab %}
+
+{% tab title="位置" %}
+* x
+  * 父类：Integer
+  * 数据结构：普通变量
+  * 含义：本Chunk在所处世界的x坐标
+  * 用途：用于定位一个Chunk
+* y
+  * 父类：Integer
+  * 数据结构：普通变量
+  * 含义：本Chunk在所处世界的y坐标
+  * 用途：用于定位一个Chunk
+{% endtab %}
+
+{% tab title="其它" %}
 * lastSaveTime
   * 父类：Long
   * 数据结构：普通变量
@@ -167,11 +185,8 @@ public boolean unloadQueued;
   * 数据结构：ConcurrentLinkedQueue
   * 含义：以Queue方式创建实体时，排队等待的实体
   * 用途：保存本Chunk中要被创建的实体
-* unloadQueued
-  * 父类：Boolean
-  * 数据结构：普通变量
-  * 含义：标识本Chunk是否在卸载队列中
-  * 用途：卸载Chunk时作为判断依据
+{% endtab %}
+{% endtabs %}
 
 ## 方法
 
