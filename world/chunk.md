@@ -643,3 +643,15 @@ public int getLightFor(EnumSkyBlock type, BlockPos pos)
 }
 ```
 
+首先也是从方块位置对象中获得方块的x轴、y轴、z轴坐标值，同时把x轴和y轴`&15`，使之保持在0-15之间，也就是处于一个Chunk中，然后通过  y &gt;&gt; 4 来得出方块所在的section的id，再从storageArrays中索引section对象，如果section是非空的，且该方块的位置能看见天空，就返回默认的天光光线强度，如果看不见，就返回0，也就是没有天光。
+
+如果方块所处的位置是天空的话，如果含有天光，就通过getSkyLight函数获得天光强度，如果没有，就返回0，如果都不是，也就是普通的section，且该位置有方块，且通过getBlockLight返回方块光线强度，如果不是方块，就返回默认的光线强度。
+
+
+
+
+
+
+
+
+
