@@ -18,7 +18,7 @@
 
 请确保
 
-> %HOMEPATH%\AppData\Roaming.minecraft\versions\1.12
+> %HOMEPATH%\AppData\Roaming\.minecraft\versions\1.12
 
 文件夹下有1.12.jar文件
 
