@@ -659,7 +659,61 @@ public int getLightFor(EnumSkyBlock type, BlockPos pos)
 
 如果方块所处的位置是天空的话，如果含有天光，就通过getSkyLight函数获得天光强度，如果没有，就返回0，如果都不是，也就是普通的section，且该位置有方块，且通过getBlockLight返回方块光线强度，如果不是方块，就返回默认的光线强度。
 
+#### getLightSubtracted
 
+```java
+/**
+ * 用来计算天光从洞口照入山洞中有局部光照的方块的渲染光照
+ * @param pos 方块的位置对象
+ * @param amount 天光到达方块的衰减
+ * @return 方块应该显示的亮度
+ */
+public int getLightSubtracted(BlockPos pos, int amount)
+{
+    int i = pos.getX() & 15; //获得x轴坐标并定位到一个chunk范围内
+    int j = pos.getY(); //获得y轴坐标
+    int k = pos.getZ() & 15; //获得轴坐标并定位到一个chunk范围内
+    ExtendedBlockStorage extendedblockstorage = this.storageArrays[j >> 4]; //获得section的id后从storageArrays中获得方块所在section对象
+
+    if (extendedblockstorage == NULL_BLOCK_STORAGE) //如果section为空，就从worlc里获取skylight
+    {
+        //有sky light且够减的话就返回减去的值，如果不是的话返回0
+        return this.world.provider.hasSkyLight() && amount < EnumSkyBlock.SKY.defaultLightValue ? EnumSkyBlock.SKY.defaultLightValue - amount : 0;
+    }
+    else //如果有section
+    {
+        int l = !this.world.provider.hasSkyLight() ? 0 : extendedblockstorage.getSkyLight(i, j & 15, k); //通过section获得全局光照
+        l = l - amount;//减去衰减值
+        int i1 = extendedblockstorage.getBlockLight(i, j & 15, k); //通过block获得局部光照
+
+        if (i1 > l) //如果局部光照比全局光照还大
+        {
+            l = i1; //就取局部光照
+        }
+
+        return l; //总之就是选择全局光照折损之后的与局部光照之间的最大值
+    }
+}
+```
+
+具体的看注释，注释已经写得很详细了，我主要说一下这个函数大概的用处。首先得说一下游戏里的两种光照：
+
+* 全局光照：一般由一个位于场景上方的大灯模拟太阳/月亮，在Minecraft就是阳光和月光，它会受天气、时间的影响，在代码里叫SkyLight，天光。
+* 局部光照：一般是物体周围其它发光物品产生的，在Minecraft里火把的亮光就是局部光照，代码里叫BlockLight
+
+下面是全局光照+局部光照/只有全局光照/只有局部光照的场景对比：
+
+![&#x9732;&#x5929;&#x6D1E;&#x53E3;+&#x706B;&#x628A;](../.gitbook/assets/chunk-all-light.png)
+
+![&#x53EA;&#x6709;&#x9732;&#x5929;&#x6D1E;&#x53E3;](../.gitbook/assets/chunk-light-sky.png)
+
+![&#x53EA;&#x6709;&#x706B;&#x628A;](../.gitbook/assets/chunk-light-block.png)
+
+可以明显地看到，这三个场景的光线是完全不同的，在游戏中，时常要处理这种既有全局光照又有局部光照的场景，程序需要根据照射到方块的局部光照强度和全局光照强度，再加上全局光照的衰减，算出应该在方块上渲染的光线强度。
+
+程序的第9-12行不再赘述，取得方块所在section对象，如果对象为空，说明方块是暴露在全局光照下的，那就没有局部光照什么事了，直接把全局光照减去其衰减值，当然不能把光照强度减成负数了，要成负数了就改成0。
+
+如果不是空，说明方块处于类似于上图所示的环境中，既有全局光照又有局部光照，那我们获取全局光照后减去衰减值，这是全局光照在方块上的情况，把它与局部光照对比，取其最大值，然后返回，这就是这个函数的作用，算出一个综合的光线强度。
 
 
 
