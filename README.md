@@ -5,6 +5,7 @@
 除此之外，需要提醒您的是，由于本Wiki的图像都存放在这个Wiki的仓库里，所以在国内的网络环境下，图片很可能加载不出来，如果您想在线阅读的话，建议您准备一个SSR，具体的软件和服务商的推荐，可以查看[阅读前一些准备](./%E9%98%85%E8%AF%BB%E5%89%8D%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87#%E5%B7%A5%E5%85%B7)页面里查阅我们推荐的SSR工具。如果你不想使用SSR的话，你还可以查阅[阅读前一些准备](./%E9%98%85%E8%AF%BB%E5%89%8D%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87#%E5%B7%A5%E5%85%B7)页面下的Github的DNS配置来解决这个问题。
 
 * [阅读前一些准备](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-qian-yi-xie-zhun-bei)
+* [编译子集的源码](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/bian-yi-zi-ji-de-yuan-ma)
 * [学习如何学习](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/xue-xi-ru-he-xue-xi)
 * [阅读源码八原则](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-yuan-ma-ba-yuan-ze)
 
