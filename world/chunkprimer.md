@@ -1,8 +1,10 @@
 ---
-description: 封装一部分Chunk的操作
+description: 我是Chunk.java的好帮手！
 ---
 
 # ChunkPrimer
+
+
 
 * 时间：2020-7-16
 * 类别：地形生成
