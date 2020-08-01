@@ -833,6 +833,120 @@ i1被赋了非-1值，也就不满足while循环的条件，自然就退出了�
 那如何验证我们这套理论呢？Minecraft真的就这么运行的吗？我们可以把`i1 = blockpos.getY() + 1;`的+1去掉或者减去1，看看会发生什么，我们应当在一个蜘蛛网下方放一个玻璃方块，当我们保留+1的时候，当while循环从蜘蛛网遍历到玻璃方块时候，会运行这条语句，此时记录的雨滴停留方块应当在蜘蛛网的这一格上，也就是在玻璃方块和蜘蛛网交界的平面，会出现雨滴撞击的深蓝色粒子特效，如果我们去掉+1，那么雨滴的降水高度将会判定在玻璃方块的位置上，雨滴的碰撞效果也会在玻璃方块的底部产生，但是由于玻璃方块是透明的，我们依然可以看到这个粒子效果。减一同理，但是粒子效果会在最底层的玻璃方块的下表面产生，下图就是不加一和加一和减一的实际效果图。​![](B:\Project\doc\mcp940.wiki\image\HowTo\noplus.gif) ![](B:\Project\doc\mcp940.wiki\image\HowTo\plus.gif) ![](B:\Project\doc\mcp940.wiki\image\HowTo\dec.gif)​
 
 我们可以看到，现实情况和我们预想的一样，当不加1的时候，游戏判定的降水高度是玻璃方块这一层，粒子特效也产生于第一个玻璃方块和第二个玻璃方块之间，也就是最左边这幅图所展示的情况，这种情况是不正常的，因为玻璃方块不透雨，雨滴不应该落在两个玻璃方块之间，如果加1，也就是正常情况，也就是中间这幅图的情况，降水判定在蜘蛛网和玻璃方块之间，碰撞产生的粒子效果也产生在玻璃方块和蜘蛛网之间。如果减1，那就是右边这幅图的情况，此时，降水判定在正常位置的下面两格，也就是最底层玻璃方块的下面表面。
+
+#### getRandomWithSeed
+
+```java
+/**
+ * 使用地图种子生成chunk的随机数
+ * 随机数与输入的种子，区块的x，z有关
+ * @param seed 地图种子
+ * @return 随机数变量
+ */
+public Random getRandomWithSeed(long seed)
+{
+    return new Random(this.world.getSeed() + (long)(this.x * this.x * 4987142) + (long)(this.x * 5947611) + (long)(this.z * this.z) * 4392871L + (long)(this.z * 389711) ^ seed);
+}
+```
+
+这个函数主要用于生成一个本Chunk所独有的随机对象，生成的随机数对象与传入的种子、地图的种子、Chunk的位置x,y,z轴坐标有关，目前所知道的用处是在化石生成上，具体的机制暂时不清楚，推测还与柏林噪声的初始随机数有关。
+
+化石的生成被定义在了WorldGenFossils类中，会影响化石生成的高度。
+
+#### getTileEntity
+
+```java
+/**
+ * 从方块的位置上获得平铺实体，本质上是以给定的方式在一个位置上创建平铺实体
+ * @param pos 需要获得的方块位置
+ * @param createType 创建实体的类型，定义在本类中的EnumCreateEntityType枚举中
+ * @return 平铺实体对象
+ */
+@Nullable
+public TileEntity getTileEntity(BlockPos pos, Chunk.EnumCreateEntityType createType)
+{
+    TileEntity tileentity = this.tileEntities.get(pos);  //获得tile 实体
+
+    if (tileentity == null) //如果实体是空，要创建
+    {
+        if (createType == Chunk.EnumCreateEntityType.IMMEDIATE)  //如果创建实体的类型是立即
+        {
+            tileentity = this.createNewTileEntity(pos); //新建实体
+            this.world.setTileEntity(pos, tileentity); //设置实体
+        }
+        else if (createType == Chunk.EnumCreateEntityType.QUEUED) //如果创建实体的类型是排队
+        {
+            this.tileEntityPosQueue.add(pos); //把它的位置对象加入到队列中取
+        }
+    }
+    else if (tileentity.isInvalid())  //如果不为空且是失效的
+    {
+        this.tileEntities.remove(pos); //去除实体
+        return null; //返回空
+    }
+
+    return tileentity; //返回实体
+}
+```
+
+其思路和getPrecipitationHeight函数类似，都是先从本Chunk中获得，如果获得的无效，就更新。Chunk里的平铺实体是存放在tileEntities里的，先通过它来获得平铺实体，如果平铺实体是空的，说明原来的平铺实体是无效的，需要更新。
+
+如果是立刻创建的方式，我们就直接调用本Chunk中的createNewTileEntity函数来创建一个平铺实体，在把它加入到这个世界中。
+
+如果是排队创建的方式，我们就把该位置加入到队列里，这个队列就是tileEntityPosQueue。
+
+如果实体是存在的，但是无效了，那我们需要删除它，我们将它从保存平铺实体的tileEntities中删除，在返回一个null。
+
+之后就正常发挥平铺实体，第30行只有两种情况可以运行到这里：
+
+* 从Chunk中直接获得的平铺实体对象本身就是有效的
+* 从Chunk中直接获得的平铺实体无效但是重新创建了新的平铺实体
+
+#### getTileEntityMap
+
+```java
+/**
+ * 返回保存平铺实体的map
+ * @return Chunk中的保存平铺实体的map
+ */
+public Map<BlockPos, TileEntity> getTileEntityMap()
+{
+    return this.tileEntities;
+}
+
+```
+
+#### getTopFilledSegment
+
+```java
+/**
+ * Returns the topmost ExtendedBlockStorage instance for this Chunk that actually contains a block.
+ * 返回此实际包含块的块的最顶层ExtendedBlockStorage实例。
+ * 返回的是能代表它的y坐标
+ */
+public int getTopFilledSegment()
+{
+    ExtendedBlockStorage extendedblockstorage = this.getLastExtendedBlockStorage();
+    return extendedblockstorage == null ? 0 : extendedblockstorage.getYLocation();
+}
+```
+
+封装getLastExtendedBlockStorage函数，获得最上层非空section的y坐标。如果没有非空section，就返回0。
+
+#### getWorld
+
+```java
+/**
+ * 获得本Chunk所处的世界
+ * @return 本Chunk所处世界对象
+ */
+public World getWorld()
+{
+    return this.world;
+}
+```
+
+获得本Chunk所处的世界对象
 {% endtab %}
 
 {% tab title="set方法" %}
