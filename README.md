@@ -25,7 +25,7 @@ description: 开启你的源码阅读之旅！
     * [ChunkPrimer](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/world/chunk-package/chunkprimer)
 * UTIL
   * math
-    * MathHelper
+    * [MathHelper](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/util/math/mathhelper)
 
 
 
