@@ -13,11 +13,12 @@
 
 ## 🎴world
 
-* [Chunk](world/chunk-package/README.md)
+* [chunk](world/chunk-package/README.md)
   * [Chunk](world/chunk-package/chunk.md)
   * [ChunkPrimer](world/chunk-package/chunkprimer.md)
 
 ## 🔨util
 
-* [MathHelper](util/mathhelper.md)
+* [math](util/math/README.md)
+  * [MathHelper](util/math/mathhelper.md)
 

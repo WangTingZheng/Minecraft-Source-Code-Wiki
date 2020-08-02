@@ -45,7 +45,7 @@ public static int smallestEncompassingPowerOfTwo(int value)
 
 
 
-![&#x83B7;&#x5F97;&#x6700;&#x5C0F;&#x4E8C;&#x6B21;&#x5E42;](../.gitbook/assets/mathhelper-right-shift.jpg)
+![&#x83B7;&#x5F97;&#x6700;&#x5C0F;&#x4E8C;&#x6B21;&#x5E42;](../../.gitbook/assets/mathhelper-right-shift.jpg)
 
 我们先明确目标，我们要做的是输入一个任意的值，输出一个2的幂次，输入值的特征我们找不到，但是输出值的特征很明显，那就是把它化成二进制，整个字段就只有一个1，就像：
 
