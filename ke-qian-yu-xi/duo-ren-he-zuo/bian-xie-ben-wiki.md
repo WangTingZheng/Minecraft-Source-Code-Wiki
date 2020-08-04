@@ -54,7 +54,9 @@
 
 gitbook的在线合作编写是[收费功能](https://www.gitbook.com/pricing)，每个月每人8美元，也就是55.7825元￥（2020-8-4），如果您喜欢这种更加高效的合作模式，请赞助我们8美元：
 
-![&#x6536;&#x6B3E;&#x7801;](../../.gitbook/assets/mm_facetoface_collect_qrcode_1596558960966.png)
+![paycode](../../.gitbook/assets/paycode.png)
+
+
 
 
 
