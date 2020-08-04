@@ -22,8 +22,8 @@
 * [math](util/math/README.md)
   * [MathHelper](util/math/mathhelper.md)
 
-## 其它资料搬运
+## 📌其它资料搬运
 
-* [Wiki.vg](qi-ta-zi-liao-ban-yun/wiki.vg/README.md)
+* [wiki.vg](qi-ta-zi-liao-ban-yun/wiki.vg/README.md)
   * [Chunk Format](qi-ta-zi-liao-ban-yun/wiki.vg/chunk-format.md)
 
