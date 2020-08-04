@@ -19,13 +19,8 @@ description: 开启你的源码阅读之旅！
   * 阅读原则
     * [学习如何学习](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/xue-xi-ru-he-xue-xi)
     * [阅读源码八原则](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-yuan-ma-ba-yuan-ze)
-* World
-  * Chunk
-    * [Chunk](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/world/chunk-package/chunk)
-    * [ChunkPrimer](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/world/chunk-package/chunkprimer)
-* UTIL
-  * math
-    * [MathHelper](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/util/math/mathhelper)
+
+具体的类的wiki，你可以通过左边的导航栏进行查看。
 
 
 

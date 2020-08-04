@@ -10,6 +10,8 @@
 * [阅读原则](ke-qian-yu-xi/yue-du-yuan-ze/README.md)
   * [学习如何学习](ke-qian-yu-xi/yue-du-yuan-ze/xue-xi-ru-he-xue-xi.md)
   * [阅读源码八原则](ke-qian-yu-xi/yue-du-yuan-ze/yue-du-yuan-ma-ba-yuan-ze.md)
+* [多人合作](ke-qian-yu-xi/duo-ren-he-zuo/README.md)
+  * [编写本Wiki](ke-qian-yu-xi/duo-ren-he-zuo/bian-xie-ben-wiki.md)
 
 ## 🎴world
 
