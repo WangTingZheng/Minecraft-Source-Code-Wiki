@@ -50,6 +50,16 @@
 
 以此来提交一个Pull request，请简要概述一下你所做的工作，我收到你的Pull request将对你的工作进行审核，审核通过后我将把它应用到本页面中，供所有人访问。
 
+## Gitbook在线合作编写
+
+gitbook的在线合作编写是[收费功能](https://www.gitbook.com/pricing)，每个月每人8美元，也就是55.7825元￥（2020-8-4），如果您喜欢这种更加高效的合作模式，请赞助我们8美元：
+
+![&#x6536;&#x6B3E;&#x7801;](../../.gitbook/assets/mm_facetoface_collect_qrcode_1596558960966.png)
+
+
+
+
+
 
 
 
