@@ -19,6 +19,7 @@ description: 准备好刀叉好上菜
 * [ProcedualGeneration - 拳四郎的博客 - CSDN](https://blog.csdn.net/qp120291570/category_6203791.html)
 * [白玉楼之梦 - szszss' blog](http://blog.hakugyokurou.net/)
 * [Minecraft Modding](https://greyminecraftcoder.blogspot.com/)
+* [wiki.vg:Minecraft](https://wiki.vg/Main_Page)
 
 ### 视频
 
