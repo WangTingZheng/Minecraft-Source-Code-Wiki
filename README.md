@@ -12,13 +12,14 @@ description: 开启你的源码阅读之旅！
 
 下面是一些你在阅读具体的文档前，所必须阅读的一些说明文档：
 
-* 课前预习
-  * 环境准备
-    * [阅读前一些准备](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-qian-yi-xie-zhun-bei)
-    * [编译自己的源码](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/bian-yi-zi-ji-de-yuan-ma)
-  * 阅读原则
-    * [学习如何学习](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/xue-xi-ru-he-xue-xi)
-    * [阅读源码八原则](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-yuan-ma-ba-yuan-ze)
+* 环境准备
+  * [阅读前一些准备](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-qian-yi-xie-zhun-bei)
+  * [编译自己的源码](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/bian-yi-zi-ji-de-yuan-ma)
+* 阅读原则
+  * [学习如何学习](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/xue-xi-ru-he-xue-xi)
+  * [阅读源码八原则](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/yue-du-yuan-ma-ba-yuan-ze)
+* 多人合作
+  * [编写本Wiki](https://wangtingzheng.gitbook.io/minecraft-source-code-wiki/ke-qian-yu-xi/duo-ren-he-zuo/bian-xie-ben-wiki)
 
 具体的类的wiki，你可以通过左边的导航栏进行查看。
 
