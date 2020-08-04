@@ -44,7 +44,11 @@
 
 ## 提交更新到本项目
 
-如果你想让你的修改应用到本页面中，你可以点击[这里](https://github.com/WangTingZheng/Minecraft-Source-Code-Wiki/compare)提交一个Pull request，请简要概述一下你所做的工作，我收到你的Pull request将对你的工作进行审核，审核通过后我将把它应用到本页面中，供所有人访问。
+如果你想让你的修改应用到本页面中，你可以点击[这里](https://github.com/WangTingZheng/Minecraft-Source-Code-Wiki/compare) 并点击compare across forks，显示你的更新：
+
+![](../../.gitbook/assets/github-fork-pull-request.png)
+
+以此来提交一个Pull request，请简要概述一下你所做的工作，我收到你的Pull request将对你的工作进行审核，审核通过后我将把它应用到本页面中，供所有人访问。
 
 
 
