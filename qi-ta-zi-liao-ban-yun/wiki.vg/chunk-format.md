@@ -34,7 +34,13 @@ description: 'https://wiki.vg/Chunk_Format'
 
 游戏中使用的调色板有两种：全局调色板和段调色板。
 
-全局调色板是id到方块状态的标准映射。方块状态id是根据分配顺序以线性方式创建的。一个方块状态id分配到每一个不同的方块状态或者方块；如果一个方块有多种属性
+全局调色板是id到方块状态的标准映射。方块状态id是根据分配顺序以线性方式创建的。一个方块状态id分配到每一个不同的方块状态或者方块；如果一个方块有多种属性，则分配的状态数是每个属性的值的乘积。注意全局调色板当前由每个条目14bit所表示。如果在全局调色板里找不到某个方块，那它就会被当成空气。数据生成系统可以被用来生成一个当前全局调色板的值的列表。
+
+{% hint style="info" %}
+不要以为全局调色板都是这样的；将其保留在单独的功能中。作为flattening的一部分它的形式在1.13发生了改变，或许在不远的将来会有更深入的改变（虽然可能性不太大），现在1.13已经被制作完成了，同样的，不用对调色板的总尺寸进行硬编码，保持其不变。
+{% endhint %}
+
+段调色板通常被用于将方块id映射到全局id。
 
 [Notchain](https://bravo.readthedocs.io/en/latest/differences.html)：The “Notchian” server is the server authored by Notch and distributed by Mojang as a companion to the Mojang-sponsored client.
 
