@@ -781,7 +781,8 @@ public BlockPos getPrecipitationHeight(BlockPos pos)
     int i = pos.getX() & 15;
     int j = pos.getZ() & 15;
     int k = i | j << 4; //根据x，z轴获得在一个chunk平面的序号
-    BlockPos blockpos = new BlockPos(pos.getX(), this.precipitationHeightMap[k], pos.getZ()); //根据方块的x，z和降水高度获得接收到降水的区块的位置
+    ////根据方块的x，z和降水高度获得接收到降水的区块的位置
+    BlockPos blockpos = new BlockPos(pos.getX(), this.precipitationHeightMap[k], pos.getZ()); 
 
     if (blockpos.getY() == -999) //降水高度只被初始化了，没有被计算过，降水高度是无效的
     {
